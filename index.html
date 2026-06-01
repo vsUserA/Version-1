@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Berechnungsprogramm fuer den Spannungsfall auf Leitungen und Kabeln.">
+  <title>Berechnungsprogramm Spannungsfall auf Leitungen</title>
+  <link rel="stylesheet" href="./styles/style.css">
+  <script src="./js/main.js" defer></script>
+</head>
+<body>
+  <!-- Hauptcontainer: begrenzt die Breite und haelt die App mittig auf der Seite. -->
+  <main class="page-shell">
+    <header class="app-header">
+      <div>
+        <p class="eyebrow">Leitungen und Kabel</p>
+        <h1>Berechnungsprogramm des Spannungsfalls</h1>
+      </div>
+      <button class="ghost-button" type="button" id="infoButton">Informationen</button>
+    </header>
+
+    <!-- Das Formular enthaelt alle Eingaben und die Ergebnisanzeige.
+         novalidate bedeutet: Wir pruefen die Werte selbst in JavaScript. -->
+    <form class="calculator" id="voltageDropForm" novalidate>
+      <section class="panel input-panel" aria-labelledby="inputTitle">
+        <div class="panel-heading">
+          <h2 id="inputTitle">Eingaben</h2>
+          <button class="text-button" type="reset">Reset</button>
+        </div>
+
+        <div class="form-grid">
+          <!-- data-preset-for verbindet ein Dropdown mit dem passenden Eingabefeld.
+               Die JavaScript-Funktion applyPreset() uebernimmt den gewaehlten Wert. -->
+          <label class="field">
+            <span>Nennspannung [V]</span>
+            <div class="select-input">
+              <select data-preset-for="voltage">
+                <option value="">-&gt;</option>
+                <option value="6">6 V</option>
+                <option value="12">12 V</option>
+                <option value="24">24 V</option>
+                <option value="48">48 V</option>
+                <option value="110">110 V</option>
+                <option value="230">230 V</option>
+                <option value="400">400 V</option>
+                <option value="690">690 V</option>
+              </select>
+              <input id="voltage" name="voltage" inputmode="decimal" value="230">
+            </div>
+          </label>
+
+          <label class="field">
+            <span>Strom / Vorsicherung [A]</span>
+            <div class="select-input">
+              <select data-preset-for="current">
+                <option value="">-&gt;</option>
+                <!-- Eigene Erweiterungen: Diese Vorsicherungswerte koennen erweitert werden.
+                     Wenn du spaeter Werte hinzufuegst, bitte in diesem Block lassen. -->
+                <!-- USER-OPTIONS-START: current-presets -->
+                <option value="2">2 A</option>
+                <option value="4">4 A</option>
+                <option value="6">6 A</option>
+                <option value="10">10 A</option>
+                <option value="13">13 A</option>
+                <option value="16">16 A</option>
+                <option value="20">20 A</option>
+                <option value="25">25 A</option>
+                <option value="32">32 A</option>
+                <option value="35">35 A</option>
+                <option value="40">40 A</option>
+                <option value="50">50 A</option>
+                <option value="63">63 A</option>
+                <option value="80">80 A</option>
+                <option value="100">100 A</option>
+                <option value="125">125 A</option>
+                <option value="160">160 A</option>
+                <option value="200">200 A</option>
+                <option value="224">224 A</option>
+                <option value="250">250 A</option>
+                <option value="300">300 A</option>
+                <option value="315">315 A</option>
+                <option value="355">355 A</option>
+                <option value="400">400 A</option>
+                <option value="425">425 A</option>
+                <option value="500">500 A</option>
+                <option value="630">630 A</option>
+                <option value="800">800 A</option>
+                <option value="1000">1000 A</option>
+                <option value="1250">1250 A</option>
+                <option value="1500">1500 A</option>
+                <option value="1850">1850 A</option>
+                <option value="2000">2000 A</option>
+                <!-- USER-OPTIONS-END: current-presets -->
+              </select>
+              <input id="current" name="current" inputmode="decimal" value="16">
+            </div>
+          </label>
+
+          <label class="field">
+            <span>Leitungsl&auml;nge [m]</span>
+            <div class="select-input">
+              <select data-preset-for="length">
+                <option value="">-&gt;</option>
+                <!-- Eigene Erweiterungen: Leitungslangen wie im Originalprogramm.
+                     Werte zwischen diesen Markierungen bleiben dein Anpassungsbereich. -->
+                <!-- USER-OPTIONS-START: length-presets -->
+                <option value="1">1 m</option>
+                <option value="2">2 m</option>
+                <option value="5">5 m</option>
+                <option value="7">7 m</option>
+                <option value="10">10 m</option>
+                <option value="15">15 m</option>
+                <option value="20">20 m</option>
+                <option value="25">25 m</option>
+                <option value="30">30 m</option>
+                <option value="35">35 m</option>
+                <option value="40">40 m</option>
+                <option value="45">45 m</option>
+                <option value="50">50 m</option>
+                <option value="60">60 m</option>
+                <option value="70">70 m</option>
+                <option value="80">80 m</option>
+                <option value="90">90 m</option>
+                <option value="100">100 m</option>
+                <option value="125">125 m</option>
+                <option value="150">150 m</option>
+                <option value="175">175 m</option>
+                <option value="200">200 m</option>
+                <option value="250">250 m</option>
+                <option value="300">300 m</option>
+                <option value="350">350 m</option>
+                <option value="400">400 m</option>
+                <option value="450">450 m</option>
+                <option value="500">500 m</option>
+                <option value="600">600 m</option>
+                <option value="700">700 m</option>
+                <option value="800">800 m</option>
+                <option value="900">900 m</option>
+                <option value="1000">1.000 m</option>
+                <option value="1250">1.250 m</option>
+                <option value="1500">1.500 m</option>
+                <option value="1750">1.750 m</option>
+                <option value="2000">2.000 m</option>
+                <option value="2500">2.500 m</option>
+                <option value="3000">3.000 m</option>
+                <option value="4000">4.000 m</option>
+                <option value="5000">5.000 m</option>
+                <option value="7500">7.500 m</option>
+                <option value="10000">10.000 m</option>
+                <option value="15000">15.000 m</option>
+                <option value="20000">20.000 m</option>
+                <option value="30000">30.000 m</option>
+                <option value="50000">50.000 m</option>
+                <option value="75000">75.000 m</option>
+                <option value="100000">100.000 m</option>
+                <option value="200000">200.000 m</option>
+                <option value="500000">500.000 m</option>
+                <option value="1000000">1.000.000 m</option>
+                <!-- USER-OPTIONS-END: length-presets -->
+              </select>
+              <input id="length" name="length" inputmode="decimal" value="30">
+            </div>
+          </label>
+
+          <label class="field">
+            <span>cosinus phi</span>
+            <div class="select-input">
+              <select data-preset-for="powerFactor">
+                <option value="">-&gt;</option>
+                <option value="1">1</option>
+                <option value="0,95">0,95</option>
+                <option value="0,9">0,9</option>
+                <option value="0,8">0,8</option>
+                <option value="0,7">0,7</option>
+              </select>
+              <input id="powerFactor" name="powerFactor" inputmode="decimal" value="1">
+            </div>
+          </label>
+
+          <label class="field">
+            <span>Leistung [W]</span>
+            <div class="select-input">
+              <select data-preset-for="power">
+                <option value="">-&gt;</option>
+                <option value="1000">1.000 W</option>
+                <option value="2000">2.000 W</option>
+                <option value="3680">3.680 W</option>
+                <option value="5000">5.000 W</option>
+                <option value="10000">10.000 W</option>
+              </select>
+              <input id="power" name="power" inputmode="decimal" value="3680">
+            </div>
+          </label>
+
+          <label class="field">
+            <span>Leitermaterial</span>
+            <select id="material" name="material">
+              <option value="35" data-alpha="0.0037">Aluminium</option>
+              <option value="56.2" data-alpha="0.0039" selected>Kupfer</option>
+              <option value="62.5" data-alpha="0.0038">Silber</option>
+              <option value="45.2" data-alpha="0.0039">Gold</option>
+              <option value="17" data-alpha="0.0015">Messing 58</option>
+            </select>
+          </label>
+
+          <label class="field">
+            <span>Max. Spannungsfall [%]</span>
+            <div class="select-input">
+              <select data-preset-for="allowedDrop">
+                <option value="">-&gt;</option>
+                <option value="1">1 %</option>
+                <option value="2">2 %</option>
+                <option value="3">3 %</option>
+                <option value="4">4 %</option>
+                <option value="5">5 %</option>
+                <option value="10">10 %</option>
+              </select>
+              <input id="allowedDrop" name="allowedDrop" inputmode="decimal" value="3,0">
+            </div>
+          </label>
+
+          <fieldset class="field radio-field">
+            <legend>Anzahl Phasen</legend>
+            <div class="radio-row">
+              <label><input type="radio" name="phase" value="1" checked> 1~ / GS</label>
+              <label><input type="radio" name="phase" value="3"> 3~</label>
+            </div>
+          </fieldset>
+
+          <label class="field wide">
+            <span>Verlegeart</span>
+            <select id="layingType" name="layingType">
+              <option value="A" selected>geb&uuml;ndelt auf Wand/Boden oder in Rohr/Kanal</option>
+              <option value="B">einlagig auf Wand/Boden mit Ber&uuml;hrung</option>
+              <option value="C">einlagig auf Wand/Boden, Abstand = Durchmesser</option>
+              <option value="D">einlagig unter Decke mit Ber&uuml;hrung</option>
+              <option value="E">einlagig unter Decke, Abstand = Durchmesser</option>
+            </select>
+          </label>
+
+          <label class="field">
+            <span>Geh&auml;ufte Leitungen</span>
+            <select id="cableCount" name="cableCount">
+              <option value="0" selected>1 Leitung</option>
+              <option value="1">2 Leitungen</option>
+              <option value="2">3 Leitungen</option>
+              <option value="3">4 Leitungen</option>
+              <option value="4">5 Leitungen</option>
+              <option value="5">6 Leitungen</option>
+              <option value="6">7 Leitungen</option>
+              <option value="7">8 Leitungen</option>
+              <option value="8">9 Leitungen</option>
+              <option value="9">10 Leitungen</option>
+              <option value="10">12 Leitungen</option>
+              <option value="11">14 Leitungen</option>
+              <option value="12">16 Leitungen</option>
+              <option value="13">18 Leitungen</option>
+              <option value="14">20 Leitungen</option>
+            </select>
+          </label>
+
+          <label class="field">
+            <span>Umgebungstemperatur</span>
+            <select id="temperature" name="temperature">
+              <option value="10" data-factor="1.22">10 &deg;C</option>
+              <option value="15" data-factor="1.17">15 &deg;C</option>
+              <option value="20" data-factor="1.12">20 &deg;C</option>
+              <option value="25" data-factor="1.06" selected>25 &deg;C</option>
+              <option value="30" data-factor="1">30 &deg;C</option>
+              <option value="35" data-factor="0.94">35 &deg;C</option>
+              <option value="40" data-factor="0.87">40 &deg;C</option>
+              <option value="45" data-factor="0.79">45 &deg;C</option>
+              <option value="50" data-factor="0.71">50 &deg;C</option>
+              <option value="55" data-factor="0.61">55 &deg;C</option>
+              <option value="60" data-factor="0.5">60 &deg;C</option>
+            </select>
+          </label>
+
+          <label class="field wide">
+            <span>Querschnitt f&uuml;r max. Leitungsl&auml;nge [mm&sup2;]</span>
+            <div class="select-input">
+              <select data-preset-for="crossSection">
+                <option value="">-&gt;</option>
+                <!-- Eigene Erweiterungen: Ab 240 mm2 werden mehrere kleinere Leiter
+                     parallel verwendet, wie im Originalprogramm. -->
+                <!-- USER-OPTIONS-START: cross-section-presets -->
+                <option value="0,75">0,75 mm&sup2;</option>
+                <option value="1">1 mm&sup2;</option>
+                <option value="1,5">1,5 mm&sup2;</option>
+                <option value="2,5">2,5 mm&sup2;</option>
+                <option value="4">4 mm&sup2;</option>
+                <option value="6">6 mm&sup2;</option>
+                <option value="10">10 mm&sup2;</option>
+                <option value="16">16 mm&sup2;</option>
+                <option value="25">25 mm&sup2;</option>
+                <option value="35">35 mm&sup2;</option>
+                <option value="50">50 mm&sup2;</option>
+                <option value="70">70 mm&sup2;</option>
+                <option value="95">95 mm&sup2;</option>
+                <option value="120">120 mm&sup2;</option>
+                <option value="150">150 mm&sup2;</option>
+                <option value="185">185 mm&sup2;</option>
+                <option value="240">240 mm&sup2;</option>
+                <option value="300">2 x 150 mm&sup2;</option>
+                <option value="370">2 x 185 mm&sup2;</option>
+                <option value="450">3 x 150 mm&sup2;</option>
+                <option value="480">2 x 240 mm&sup2;</option>
+                <option value="555">3 x 185 mm&sup2;</option>
+                <option value="720">3 x 240 mm&sup2;</option>
+                <option value="740">4 x 185 mm&sup2;</option>
+                <option value="960">4 x 240 mm&sup2;</option>
+                <!-- USER-OPTIONS-END: cross-section-presets -->
+              </select>
+              <input id="crossSection" name="crossSection" inputmode="decimal" value="2,5">
+            </div>
+          </label>
+        </div>
+      </section>
+
+      <!-- Ergebnisbereich: JavaScript schreibt die berechneten Werte in die strong-Elemente. -->
+      <section class="panel result-panel" aria-labelledby="resultTitle">
+        <div class="panel-heading">
+          <h2 id="resultTitle">Ergebnis</h2>
+          <span class="state-pill" id="statePill">Bereit</span>
+        </div>
+
+        <div class="main-result">
+          <span>Mind. Normquerschnitt</span>
+          <strong id="standardCrossSection">-</strong>
+        </div>
+
+        <div class="result-grid">
+          <article class="metric">
+            <span>Theoretischer Querschnitt</span>
+            <strong id="theoreticalCrossSection">-</strong>
+          </article>
+          <article class="metric">
+            <span>Max. Leitungsl&auml;nge</span>
+            <strong id="maxLength">-</strong>
+          </article>
+          <article class="metric">
+            <span>Spannungsfall bei gew&auml;hltem Querschnitt</span>
+            <strong id="actualDrop">-</strong>
+          </article>
+          <article class="metric">
+            <span>Spannung am Verbraucher</span>
+            <strong id="consumerVoltage">-</strong>
+          </article>
+          <article class="metric">
+            <span>Berechnete Leistung</span>
+            <strong id="calculatedPower">-</strong>
+          </article>
+          <article class="metric">
+            <span>Korrekturfaktor</span>
+            <strong id="correctionFactor">-</strong>
+          </article>
+          <article class="metric is-hidden" id="simpleSingleMetric">
+            <span>Normquerschnitt einfache Leitung</span>
+            <strong id="simpleSingleCrossSection">-</strong>
+          </article>
+        </div>
+
+        <label class="field project-field">
+          <span>Projekt</span>
+          <input id="projectName" name="projectName" value="neues Projekt">
+        </label>
+
+        <div class="output-actions">
+          <button class="output-button" type="button" id="outputButton">Ausgabe =&gt;</button>
+        </div>
+      </section>
+    </form>
+  </main>
+</body>
+</html>

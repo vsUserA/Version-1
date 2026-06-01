@@ -1,0 +1,347 @@
+:root {
+  /* Zentrale Farb- und Schattenwerte. Wenn du spaeter das Design aendern willst,
+     kannst du hier mit wenigen Variablen sehr viel steuern. */
+  color-scheme: light;
+  --page: #d9dde0;
+  --panel: #f7f8f9;
+  --panel-strong: #ffffff;
+  --ink: #202832;
+  --muted: #61707e;
+  --line: #b8c1ca;
+  --blue: #164f9c;
+  --green: #24743b;
+  --red: #c1272d;
+  --amber: #a65f00;
+  --shadow: 0 16px 34px rgba(30, 42, 54, 0.14);
+}
+
+* {
+  /* Padding und Border zaehlen zur Gesamtbreite. Dadurch lassen sich Grids
+     und Eingabefelder leichter berechnen. */
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: Arial, Helvetica, sans-serif;
+  color: var(--ink);
+  background:
+    linear-gradient(135deg, rgba(22, 79, 156, 0.08), rgba(36, 116, 59, 0.07)),
+    var(--page);
+}
+
+button,
+input,
+select {
+  font: inherit;
+}
+
+.page-shell {
+  /* min() nimmt den kleineren Wert: maximal 1180px, auf kleinen Bildschirmen
+     aber immer mit 14px Abstand links und rechts. */
+  width: min(1180px, calc(100% - 28px));
+  margin: 0 auto;
+  padding: 26px 0;
+}
+
+.app-header {
+  /* Flexbox legt Titel und Info-Button nebeneinander. */
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 18px;
+  margin-bottom: 16px;
+}
+
+.eyebrow {
+  margin: 0 0 5px;
+  color: var(--green);
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+}
+
+h1,
+h2 {
+  margin: 0;
+  letter-spacing: 0;
+}
+
+h1 {
+  color: var(--green);
+  font-size: clamp(1.7rem, 4vw, 2.6rem);
+  line-height: 1.08;
+}
+
+h2 {
+  color: var(--blue);
+  font-size: 1.1rem;
+}
+
+.calculator {
+  /* Zwei Spalten: links mehr Platz fuer Eingaben, rechts die Ergebnisbox. */
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(330px, 0.65fr);
+  gap: 18px;
+  align-items: start;
+}
+
+.panel {
+  /* Wiederverwendbarer Kasten fuer Eingaben und Ergebnisse. */
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel);
+  box-shadow: var(--shadow);
+}
+
+.input-panel,
+.result-panel {
+  padding: 18px;
+}
+
+.panel-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.form-grid {
+  /* repeat(2, minmax(0, 1fr)) erzeugt zwei gleich breite Spalten,
+     die auch bei langen Texten nicht aus dem Layout laufen. */
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.field {
+  display: grid;
+  gap: 6px;
+}
+
+.field span,
+legend {
+  color: var(--blue);
+  font-weight: 700;
+  font-size: 0.92rem;
+}
+
+input,
+select {
+  width: 100%;
+  min-height: 40px;
+  border: 1px solid #9ca9b5;
+  border-radius: 6px;
+  padding: 8px 10px;
+  color: var(--ink);
+  background: #fff;
+}
+
+input:focus,
+select:focus {
+  outline: 3px solid rgba(22, 79, 156, 0.18);
+  border-color: var(--blue);
+}
+
+.select-input {
+  /* Dropdown und freies Eingabefeld stehen in einer Zeile.
+     Das rechte Feld ist etwas schmaler, weil dort meist nur Zahlen stehen. */
+  display: grid;
+  grid-template-columns: minmax(120px, 0.75fr) minmax(90px, 0.55fr);
+  gap: 8px;
+}
+
+.wide {
+  /* Ein Element soll ueber beide Formularspalten gehen. */
+  grid-column: 1 / -1;
+}
+
+.radio-field {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.radio-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.radio-row label {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  min-height: 40px;
+  padding: 8px 10px;
+  border: 1px solid #9ca9b5;
+  border-radius: 6px;
+  background: #fff;
+  color: var(--ink);
+}
+
+.radio-row input {
+  width: auto;
+  min-height: auto;
+}
+
+.ghost-button,
+.text-button {
+  min-height: 38px;
+  border-radius: 6px;
+  border: 1px solid var(--line);
+  padding: 8px 12px;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.ghost-button {
+  color: var(--blue);
+  background: var(--panel-strong);
+}
+
+.text-button {
+  color: var(--green);
+  background: transparent;
+}
+
+.state-pill {
+  /* Kleine Statusanzeige: gruen bei ok, gelb/rot ueber Zusatzklassen. */
+  border-radius: 999px;
+  padding: 6px 10px;
+  color: var(--green);
+  background: #eaf5ed;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.state-pill.warn {
+  color: var(--amber);
+  background: #fff4df;
+}
+
+.state-pill.error {
+  color: var(--red);
+  background: #fff0f0;
+}
+
+.main-result {
+  /* Wichtigstes Ergebnis bewusst auffaellig, aehnlich wie die rote
+     Ergebnisfarbe im Originalprogramm. */
+  margin-bottom: 14px;
+  padding: 18px;
+  border-radius: 8px;
+  color: #fff;
+  background: linear-gradient(135deg, #a51f24, #d84343);
+}
+
+.main-result span {
+  display: block;
+  margin-bottom: 7px;
+  color: rgba(255, 255, 255, 0.82);
+  font-weight: 700;
+}
+
+.main-result strong {
+  display: block;
+  font-size: clamp(1.8rem, 4vw, 2.55rem);
+  line-height: 1.1;
+  word-break: break-word;
+}
+
+.result-grid {
+  /* Kleine Ergebnis-Kacheln bleiben kompakt und gut vergleichbar. */
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.metric {
+  min-height: 104px;
+  padding: 13px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel-strong);
+}
+
+.metric span {
+  display: block;
+  color: var(--muted);
+  font-size: 0.84rem;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.metric strong {
+  display: block;
+  margin-top: 8px;
+  color: var(--red);
+  font-size: 1.25rem;
+  line-height: 1.18;
+  word-break: break-word;
+}
+
+.is-hidden {
+  display: none;
+}
+
+.project-field {
+  margin-top: 14px;
+}
+
+.output-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 14px;
+}
+
+.output-button {
+  min-height: 42px;
+  border: 0;
+  border-radius: 6px;
+  padding: 10px 16px;
+  color: #fff;
+  background: var(--blue);
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.output-button:hover {
+  background: #0f3f7d;
+}
+
+@media (max-width: 900px) {
+  /* Auf Tablets und kleinen Laptops werden Eingaben und Ergebnisse untereinander
+     angeordnet, damit nichts zu eng wird. */
+  .calculator {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  /* Smartphone-Layout: alle Grids werden einspaltig. */
+  .page-shell {
+    width: min(100% - 18px, 620px);
+    padding: 16px 0;
+  }
+
+  .app-header,
+  .panel-heading {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .form-grid,
+  .result-grid,
+  .select-input,
+  .radio-row {
+    grid-template-columns: 1fr;
+  }
+
+  .input-panel,
+  .result-panel {
+    padding: 14px;
+  }
+}
